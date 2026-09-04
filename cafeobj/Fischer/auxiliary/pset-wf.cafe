@@ -1,0 +1,13 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / auxiliary/pset-wf.cafe
+-- Representation invariant for reachable PSet terms.
+
+mod PSET-WF {
+  pr(PSET)
+  op wf : Pset -> Bool
+  vars I : Pid
+  var D : Rat
+  var PS : Pset
+  eq wf((nop | oo)) = true .
+  eq wf((I | D) PS) = wf(PS) .
+}

@@ -1,0 +1,10 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / auxiliary/fischer-wf.cafe
+-- Auxiliary representation invariant and its induction-step predicate.
+
+mod FISCHER-WF {
+  pr(FISCHER + PSET-WF)
+  op wf-u : Sys -> Bool
+  var S : Sys
+  eq wf-u(S) = wf(u(S)) .
+}

@@ -1,0 +1,33 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / auxiliary/pset-support.cafe
+-- Proved PSet helper facts used by the participant-facing Proof Scores.
+
+mod FISCHER-RAT-LEMMAS {
+  pr(TIMEVAL)
+  var A : Rat+
+  vars B D : Rat
+  var C : Rat+
+  vars X Y Z : Rat
+  ceq A < ((D + B) + C) = true if A < (B + C) and (0 <= D) .
+  ceq (X + Y) < (Y + Z) = true if X < Z .
+  ceq A < (B + (D + X)) = true if A < (B + X) and (0 <= D) .
+}
+
+-- These equations are proof-environment facts recorded after the
+-- corresponding structural Proof Score in auxiliary/pset-lemmas.cafe.
+mod PSET-LEMMAS {
+  pr(PSET-WF)
+  op wf-remove : Pid Pset -> Bool
+  vars I J : Pid
+  var D : Rat
+  var PS : Pset
+  eq wf-remove(I,PS) = (wf(PS) implies wf(remove(I,PS))) .
+  ceq wf(remove(I,PS)) = true if wf(PS) .
+  ceq get(I,remove(J,PS)) = get(I,PS)
+    if wf(PS) and not(I = J) .
+  ceq get(I,remove(I,PS)) = oo if wf(PS) .
+  ceq D <= min(remove(I,PS)) = true
+    if wf(PS) and D <= min(PS) .
+  ceq D <= get(I,PS) = true
+    if wf(PS) and D <= min(PS) .
+}

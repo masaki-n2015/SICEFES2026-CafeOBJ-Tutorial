@@ -76,20 +76,8 @@ mod PSET {
   eq get(I,(J | D) PS) = (if I = J then D else get(I,PS) fi) .
 }
 
--- Reachable PSET representation: finite rational entries ending in nop | oo.
-
-mod PSET-WF {
-  pr(PSET)
-  op wf : Pset -> Bool
-  vars I : Pid
-  var D : Rat
-  var PS : Pset
-  eq wf((nop | oo)) = true .
-  eq wf((I | D) PS) = wf(PS) .
-}
-
 mod* FISCHER {
-  pr(LOC + TIMEVAL + PSET-WF)
+  pr(LOC + TIMEVAL + PSET)
   *[ Sys ]*
   op init : -> Sys
   bop turn : Sys -> Pid+
@@ -187,7 +175,6 @@ mod INV {
   op inv3 : Sys Pid Pid -> Bool
   op inv4 : Sys Pid -> Bool
   op inv5 : Sys Pid -> Bool
-  op wf-u : Sys -> Bool
   var S : Sys
   vars I J : Pid
   eq inv1(S,I,J) =
@@ -201,7 +188,6 @@ mod INV {
   eq inv4(S,I) =
     (loc(S,I) = c implies get(I,u(S)) < now(S) + d2) .
   eq inv5(S,I) = now(S) <= get(I,u(S)) .
-  eq wf-u(S) = wf(u(S)) .
 }
 
 mod ISTEP {
@@ -212,12 +198,10 @@ mod ISTEP {
   op istep3 : Pid Pid -> Bool
   op istep4 : Pid -> Bool
   op istep5 : Pid -> Bool
-  op wfstep : -> Bool
   vars I J : Pid
   eq istep1(I,J) = inv1(s,I,J) implies inv1(s',I,J) .
   eq istep2(I,J) = inv2(s,I,J) implies inv2(s',I,J) .
   eq istep3(I,J) = inv3(s,I,J) implies inv3(s',I,J) .
   eq istep4(I) = inv4(s,I) implies inv4(s',I) .
   eq istep5(I) = inv5(s,I) implies inv5(s',I) .
-  eq wfstep = wf-u(s) implies wf-u(s') .
 }

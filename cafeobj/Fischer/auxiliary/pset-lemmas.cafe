@@ -3,6 +3,7 @@
 -- Structural Proof Score for the low-level PSET helper lemmata.
 
 in ../main.cafe
+in pset-wf.cafe
 
 mod PSET-PROPS {
   pr(PSET-WF)
