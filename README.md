@@ -5,6 +5,12 @@ Specification and Verification of Real-Time Systems Using the OTS/CafeOBJ Method
 Masaki Nakamura
 Toyama Prefectural University
 
+## Tutorial Paper
+
+A preprint of the tutorial paper is available on Jxiv:
+
+https://jxiv.jst.go.jp/index.php/jxiv/preprint/view/3874/
+
 ## Slides
 
 The tutorial slides are available in:
