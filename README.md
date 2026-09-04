@@ -15,11 +15,11 @@ https://jxiv.jst.go.jp/index.php/jxiv/preprint/view/3874/
 
 The tutorial slides are available in:
 
-`slides/sicefes_hots_beamer_presentation.pdf`
+[slides/sicefes_hots_beamer_presentation.pdf](slides/sicefes_hots_beamer_presentation.pdf)
 
 ## CafeOBJ files
 
-The executable CafeOBJ specifications and Proof Scores are available under `cafeobj/`.
+The executable CafeOBJ specifications and Proof Scores are available under [cafeobj/](cafeobj/).
 
 The examples are organized into five groups:
 
