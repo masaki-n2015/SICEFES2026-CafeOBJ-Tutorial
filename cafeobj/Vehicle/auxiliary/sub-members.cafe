@@ -1,0 +1,48 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / auxiliary/sub-members.cafe
+-- Independent structural Proof Score for:
+
+in ../main.cafe
+
+mod VEHICLE-SUB-MEMBERS-PROP {
+  pr(MAINSYSTEM)
+  op sub-members : Pid Pid PSet PSet -> Bool
+  vars P Q : Pid
+  vars PS QS : PSet
+  eq sub-members(P,Q,PS,QS) =
+    ((P Q PS sub QS) implies ((P in QS) and (Q in QS))) .
+}
+
+--> sub-members / nil target
+open VEHICLE-SUB-MEMBERS-PROP .
+  ops p q : -> Pid . op rs : -> PSet .
+  red sub-members(p,q,rs,nil) .
+close
+
+--> sub-members / singleton target: a two-element pattern cannot match
+open VEHICLE-SUB-MEMBERS-PROP .
+  ops p q r : -> Pid . op rs : -> PSet .
+  eq ((p q rs) = r) = false .
+  red sub-members(p,q,rs,r) .
+close
+
+--> sub-members / constructor, pattern matches the whole sequence
+open VEHICLE-SUB-MEMBERS-PROP .
+  ops p q : -> Pid . ops rs whole : -> PSet .
+  eq whole = p q rs .
+  red sub-members(p,q,rs,whole) .
+close
+
+--> sub-members / constructor, pattern occurs in the tail; use IH
+open VEHICLE-SUB-MEMBERS-PROP .
+  ops p q r : -> Pid . ops rs tail : -> PSet .
+  eq ((p q rs) = r tail) = false .
+  red sub-members(p,q,rs,tail) implies sub-members(p,q,rs,r tail) .
+close
+
+--> sub-members / constructor, pattern is absent
+open VEHICLE-SUB-MEMBERS-PROP .
+  ops p q : -> Pid . ops rs whole : -> PSet .
+  eq ((p q rs) sub whole) = false .
+  red sub-members(p,q,rs,whole) .
+close

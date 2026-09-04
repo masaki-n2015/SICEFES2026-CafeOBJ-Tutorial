@@ -1,0 +1,77 @@
+-- SICE FES 2026 Tutorial
+-- ABCf / inv2.cafe
+-- Complete Proof Score for invariant inv2.
+
+in main.cafe
+
+--> inv2 / init: inv2 / init: inv2 init
+open INV .
+  ops p1 p2 : -> Pid .
+  red inv2(init,p1) .
+close
+
+--> inv2 / ab: inv2 / ab: inv2 ab ~c-ab
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq c-ab(s,p3) = false .
+  red istep2(p1) .
+close
+
+--> inv2 / ab: inv2 / ab: inv2 ab c-ab
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  red istep2(p1) .
+close
+
+--> inv2 / bc: inv2 / bc: inv2 bc ~c-bc
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq c-bc(s,p3) = false .
+  red istep2(p1) .
+close
+
+--> inv2 / bc: inv2 / bc: inv2 ab c-bc p1=p3
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq loc(s,p3) = b .
+  eq p1 = p3 .
+  red istep2(p1) .
+close
+
+--> inv2 / bc: inv2 / bc: inv2 ab c-bc p1!=p3 loc(s,p1)=b flag(s) inv1
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq loc(s,p3) = b .
+  eq (p1 = p3) = false .
+  eq loc(s,p1) = b .
+  eq flag(s) = true .
+  red inv1(s,p1,p3) implies istep2(p1) .
+close
+
+--> inv2 / bc: inv2 / bc: inv2 ab c-bc p1!=p3 loc(s,p1)=b ~flag(s)
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq loc(s,p3) = b .
+  eq (p1 = p3) = false .
+  eq loc(s,p1) = b .
+  eq flag(s) = false .
+  red istep2(p1) .
+close
+
+--> inv2 / bc: inv2 / bc: inv2 ab c-bc p1!=p3 ~loc(s,p1)=b
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq loc(s,p3) = b .
+  eq (p1 = p3) = false .
+  eq (loc(s,p1) = b) = false .
+  red istep2(p1) .
+close

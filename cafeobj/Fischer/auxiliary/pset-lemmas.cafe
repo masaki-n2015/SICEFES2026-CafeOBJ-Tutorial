@@ -1,0 +1,149 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / auxiliary/pset-lemmas.cafe
+-- Structural Proof Score for the low-level PSET helper lemmata.
+
+in ../main.cafe
+
+mod PSET-PROPS {
+  pr(PSET-WF)
+  op wf-remove : Pid Pset -> Bool
+  op remove-distinct : Pid Pid Pset -> Bool
+  op remove-self : Pid Pset -> Bool
+  op min-remove : Rat Pid Pset -> Bool
+  op bound-get : Rat Pid Pset -> Bool
+  vars I J : Pid .
+  var D : Rat .
+  var PS : Pset .
+  eq wf-remove(I,PS) = (wf(PS) implies wf(remove(I,PS))) .
+  eq remove-distinct(I,J,PS) =
+    ((wf(PS) and not(I = J)) implies
+      (get(I,remove(J,PS)) = get(I,PS))) .
+  eq remove-self(I,PS) =
+    (wf(PS) implies (get(I,remove(I,PS)) = oo)) .
+  eq min-remove(D,I,PS) =
+    ((wf(PS) and D <= min(PS)) implies
+      (D <= min(remove(I,PS)))) .
+  eq bound-get(D,I,PS) =
+    ((wf(PS) and D <= min(PS)) implies (D <= get(I,PS))) .
+}
+
+--> wf-remove / base
+open PSET-PROPS .
+  op i : -> Pid .
+  red wf-remove(i,(nop | oo)) .
+close
+
+--> wf-remove / constructor: i = k
+open PSET-PROPS .
+  ops i k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq i = k .
+  red wf-remove(i,ps) implies wf-remove(i,(k | d) ps) .
+close
+
+--> wf-remove / constructor: i != k
+open PSET-PROPS .
+  ops i k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq (i = k) = false .
+  red wf-remove(i,ps) implies wf-remove(i,(k | d) ps) .
+close
+
+--> remove-distinct / base
+open PSET-PROPS .
+  ops i j : -> Pid .
+  red remove-distinct(i,j,(nop | oo)) .
+close
+
+--> remove-distinct / constructor: i = j
+open PSET-PROPS .
+  ops i j k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq i = j .
+  red remove-distinct(i,j,ps) implies remove-distinct(i,j,(k | d) ps) .
+close
+
+--> remove-distinct / constructor: i != j, j = k, i = k
+open PSET-PROPS .
+  ops i j k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq (i = j) = false . eq j = k . eq i = k .
+  red remove-distinct(i,j,ps) implies remove-distinct(i,j,(k | d) ps) .
+close
+
+--> remove-distinct / constructor: i != j, j = k, i != k
+open PSET-PROPS .
+  ops i j k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq (i = j) = false . eq j = k . eq (i = k) = false .
+  red remove-distinct(i,j,ps) implies remove-distinct(i,j,(k | d) ps) .
+close
+
+--> remove-distinct / constructor: i != j, j != k, i = k
+open PSET-PROPS .
+  ops i j k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq (i = j) = false . eq (j = k) = false . eq i = k .
+  red remove-distinct(i,j,ps) implies remove-distinct(i,j,(k | d) ps) .
+close
+
+--> remove-distinct / constructor: i != j, j != k, i != k
+open PSET-PROPS .
+  ops i j k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq (i = j) = false . eq (j = k) = false . eq (i = k) = false .
+  red remove-distinct(i,j,ps) implies remove-distinct(i,j,(k | d) ps) .
+close
+
+--> remove-self / base
+open PSET-PROPS .
+  op i : -> Pid .
+  red remove-self(i,(nop | oo)) .
+close
+
+--> remove-self / constructor: i = k
+open PSET-PROPS .
+  ops i k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq i = k .
+  red remove-self(i,ps) implies remove-self(i,(k | d) ps) .
+close
+
+--> remove-self / constructor: i != k
+open PSET-PROPS .
+  ops i k : -> Pid . op d : -> Rat . op ps : -> Pset .
+  eq (i = k) = false .
+  red remove-self(i,ps) implies remove-self(i,(k | d) ps) .
+close
+
+--> min-remove / base
+open PSET-PROPS .
+  op i : -> Pid . op b : -> Rat .
+  red min-remove(b,i,(nop | oo)) .
+close
+
+--> min-remove / constructor: i = k
+open PSET-PROPS .
+  ops i k : -> Pid . ops b d : -> Rat . op ps : -> Pset .
+  eq i = k .
+  red min-remove(b,i,ps) implies min-remove(b,i,(k | d) ps) .
+close
+
+--> min-remove / constructor: i != k
+open PSET-PROPS .
+  ops i k : -> Pid . ops b d : -> Rat . op ps : -> Pset .
+  eq (i = k) = false .
+  red min-remove(b,i,ps) implies min-remove(b,i,(k | d) ps) .
+close
+
+--> bound-get / base
+open PSET-PROPS .
+  op i : -> Pid . op b : -> Rat .
+  red bound-get(b,i,(nop | oo)) .
+close
+
+--> bound-get / constructor: i = k
+open PSET-PROPS .
+  ops i k : -> Pid . ops b d : -> Rat . op ps : -> Pset .
+  eq i = k .
+  red bound-get(b,i,ps) implies bound-get(b,i,(k | d) ps) .
+close
+
+--> bound-get / constructor: i != k
+open PSET-PROPS .
+  ops i k : -> Pid . ops b d : -> Rat . op ps : -> Pset .
+  eq (i = k) = false .
+  red bound-get(b,i,ps) implies bound-get(b,i,(k | d) ps) .
+close

@@ -1,0 +1,32 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / test.cafe
+-- Executable examples for Fischer's protocol.
+
+in main.cafe
+
+open FISCHER .
+  op p1 : -> Pid .
+  ops s1 s2 s3 s4 s5 s6 : -> Sys .
+  eq d1 = 1 .
+  eq d2 = 2 .
+  eq s1 = try(init,p1) .
+  eq s2 = test(s1,p1) .
+  eq s3 = tick(d1,s2) .
+  eq s4 = set(s3,p1) .
+  eq s5 = tick(d2,s4) .
+  eq s6 = check(s5,p1) .
+
+  red loc(init,p1) .
+  red turn(init) .
+  red now(init) .
+  red loc(s1,p1) .
+  red loc(s2,p1) .
+  red get(p1,u(s2)) .
+  red now(s3) .
+  red loc(s4,p1) .
+  red turn(s4) .
+  red l(s4,p1) .
+  red now(s5) .
+  red c-check(s5,p1) .
+  red loc(s6,p1) .
+close

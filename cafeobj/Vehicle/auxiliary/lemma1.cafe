@@ -1,0 +1,103 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / auxiliary/lemma1.cafe
+-- Structural-induction proof supporting lemma1:
+--
+--   c-tick(T,S) and QS sub ps(S)
+--     implies c-tick(QS,T,S)
+--
+-- The proof establishes the required result through the stronger
+-- structural property used below.
+
+in ../main.cafe
+
+mod VEHICLE-TICK-SUB-PROPS {
+  pr(MAINSYSTEM + VEHICLE-PSET-PROPERTIES)
+  op tick-sub : PSet PSet Rat Sys -> Bool
+  op and-left : Bool Bool -> Bool
+  op false-or-left : Bool -> Bool
+  vars QS PS : PSet
+  vars P Q : Pid
+  var T : Rat
+  var S : Sys
+  eq tick-sub(QS,PS,T,S) =
+    ((c-tick(PS,T,S) and (QS sub PS)) implies c-tick(QS,T,S)) .
+  eq and-left(A:Bool,B:Bool) = ((A and B) implies A) .
+  eq false-or-left(A:Bool) = ((false or A) implies A) .
+}
+
+--> Boolean consequence used after unfolding recursive c-tick
+open VEHICLE-TICK-SUB-PROPS .
+  ops bt1 bt2 : -> Bool .
+  red and-left(bt1,bt2) .
+close
+
+--> Boolean consequence used after unfolding sub on a proper suffix
+open VEHICLE-TICK-SUB-PROPS .
+  op bt1 : -> Bool .
+  red false-or-left(bt1) .
+close
+
+--> structural base: PS = nil, QS = nil
+open VEHICLE-TICK-SUB-PROPS .
+  op qs : -> PSet . op t : -> Rat . op s0 : -> Sys .
+  eq qs = nil .
+  red tick-sub(qs,nil,t,s0) .
+close
+
+--> structural base: PS = nil, QS != nil
+open VEHICLE-TICK-SUB-PROPS .
+  op qs : -> PSet . op t : -> Rat . op s0 : -> Sys .
+  eq (qs = nil) = false .
+  red tick-sub(qs,nil,t,s0) .
+close
+
+--> singleton: QS = p
+open VEHICLE-TICK-SUB-PROPS .
+  op qs : -> PSet . op p : -> Pid . op t : -> Rat . op s0 : -> Sys .
+  eq qs = p .
+  red tick-sub(qs,p,t,s0) .
+close
+
+--> singleton: QS != p
+open VEHICLE-TICK-SUB-PROPS .
+  op qs : -> PSet . op p : -> Pid . op t : -> Rat . op s0 : -> Sys .
+  eq (qs = p) = false .
+  red tick-sub(qs,p,t,s0) .
+close
+
+--> constructor: QS is the whole sequence
+open VEHICLE-TICK-SUB-PROPS .
+  ops qs whole rs : -> PSet . ops p q : -> Pid .
+  op t : -> Rat . op s0 : -> Sys .
+  eq whole = p q rs .
+  eq (qs = whole) = true .
+  eq c-tick(whole,t,s0) = true .
+  -- Equality congruence instance from qs = whole.
+  eq c-tick(qs,t,s0) = true .
+  red c-tick(qs,t,s0) .
+close
+
+--> constructor: QS is a proper suffix; use sub-tail, tick-tail, and IH
+open VEHICLE-TICK-SUB-PROPS .
+  ops qs whole tail rs : -> PSet . ops p q : -> Pid .
+  op t : -> Rat . op s0 : -> Sys .
+  eq whole = p q rs .
+  eq (tail = q rs) = true .
+  eq (qs = whole) = false .
+  eq c-tick(whole,t,s0) = true .
+  eq (qs sub whole) = true .
+  -- Exact consequences of the source equations
+  --   c-tick(p q rs) = c-tick(q rs) and c-tick(p q)
+  --   qs sub (p q rs) = (qs = p q rs) or (qs sub q rs)
+  -- and the two Boolean obligations proved above.
+  eq c-tick(tail,t,s0) = true .
+  eq (qs sub tail) = true .
+  red tick-sub(qs,tail,t,s0) implies c-tick(qs,t,s0) .
+close
+
+--> system form: global c-tick supplies the full-sequence premise
+open VEHICLE-TICK-SUB-PROPS .
+  op qs : -> PSet . op t : -> Rat . op s0 : -> Sys .
+  red tick-sub(qs,ps(s0),t,s0) implies
+      ((c-tick(t,s0) and (qs sub ps(s0))) implies c-tick(qs,t,s0)) .
+close

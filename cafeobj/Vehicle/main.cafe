@@ -1,0 +1,289 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / main.cafe
+-- Complete executable specification and verification-property definitions.
+
+mod* PID {
+  [Pid]
+  pred _=_ : Pid Pid {comm}
+  vars P Q : Pid
+  eq (P = P) = true .
+}
+
+mod! LABEL{ 
+ [Label]
+ ops start accel nothing brake : -> Label
+ pred _=_ : Label Label {comm} 
+ var L : Label
+ eq (L = L) = true .
+ eq (accel = nothing) = false .
+ eq (accel = brake) = false .
+ eq (accel = start) = false .
+ eq (brake = nothing) = false .
+ eq (brake = start) = false .
+ eq (start = nothing) = false .
+}
+
+mod! PSET {
+  pr(PID)
+  [Pid < PSet]
+  op nil : -> PSet
+  op _ _ : PSet PSet -> PSet {assoc idr: nil}
+  op dummy : -> Pid
+  pred _in_ : Pid PSet
+  pred empty : PSet
+  ops first last : PSet -> Pid
+  op _sub_ : PSet PSet -> Bool
+  op ps : -> PSet
+  vars P Q R P1 P2 : Pid
+  vars PS QS PS1 PS2 : PSet
+  eq (P in (P PS)) = true .
+  eq (P in nil) = false .
+  eq (P in Q) = (P = Q) .
+  eq (P in (Q PS)) = (P = Q) or (P in PS) .
+  eq (nil sub PS) = true .
+  eq (P sub nil) = false .
+  eq (P sub PS) = (first(PS) = P) .
+  eq (PS sub nil) = (PS = nil) .
+  eq (PS sub P2) = (PS = P2) .
+  eq (PS1 sub P2 PS2) = ((PS1 = P2 PS2) or (PS1 sub PS2)) .
+  eq (nil = nil) = true .
+  eq (P = nil) = false .
+  eq (P PS = nil) = false .
+  eq (P1 PS = P2) = (P1 = P2 and PS = nil) .
+  eq (P1 PS1 = P2 PS2) = (P1 = P2 and PS1 = PS2) .
+  eq first(nil) = dummy .
+  eq first(P) = P .
+  eq first(P PS) = first(PS) .
+  eq last(nil) = dummy .
+  eq last(P) = P .
+  eq last(P PS) = P .
+  eq empty(nil) = true .
+  eq empty(P) = false .
+  eq empty(P PS) = false .
+  eq (P = P) = true .
+}
+
+mod* MAINSYSTEM{
+  pr(PSET + RAT + LABEL)
+  *[Sys]*
+
+ op init : -> Sys
+ 
+ op ac : Label -> Rat
+ op l : -> Rat
+ ops a1 a2 : -> Rat
+
+ op nextv : Pid Rat Sys -> Rat
+ op nextx : Pid Rat Sys -> Rat
+
+ bop ps : Sys -> PSet {memo}
+ bop now : Sys -> Rat {memo}
+ bop loc : Pid Sys -> Label {memo}
+ bop x : Pid Sys -> Rat {memo}
+ bop v : Pid Sys -> Rat {memo}
+
+ bops a b n enter : Pid Sys -> Sys {memo}
+ bop c-enter : Pid Sys -> Bool
+ bop c-a : Pid Sys -> Bool
+ bop c-b : Pid Sys -> Bool
+ bop c-n : Pid Sys -> Bool
+
+ bop tick : Rat Sys -> Sys {memo}
+ op c-tick : Rat Sys -> Bool
+ op c-tick : PSet Rat Sys -> Bool
+
+ vars P Q P' P'' : Pid
+ vars PS : PSet
+ var S : Sys 
+ vars V A X T Y Z B C D : Rat
+
+ eq ac(accel) = 1 .
+ eq ac(brake) = -1 .
+ eq ac(nothing) = 0 .
+
+ eq nextv(P,T,S) = v(P,S) + ac(loc(P,S)) * T .
+ eq nextx(P,T,S) = v(P,S) * T + 1/2 * ac(loc(P,S)) * T * T + x(P,S) .
+
+
+ eq c-tick(nil,T,S) = true .
+ eq c-tick(P,T,S) = 
+((loc(P,S) = brake or loc(P,S) = accel or loc(P,S) = nothing) implies
+  (0 <= nextv(P,T,S) and nextv(P,T,S) <= 4)) .
+
+ eq c-tick(P Q,T,S) = 
+c-tick(Q,T,S) and c-tick(P,T,S) and 
+(loc(P,S) = accel implies (nextx(P,T,S) + 8 < nextx(Q,T,S))) and
+(loc(P,S) = nothing implies (((0 < nextv(P,T,S) and nextv(P,T,S) <= 4) and 
+(nextx(P,T,S) + 8 < nextx(Q,T,S)))) or nextv(P,T,S) = 0) .
+
+ eq c-tick(P Q PS,T,S) = c-tick(Q PS,T,S) and c-tick(P Q,T,S) .
+ eq c-tick(T,S) = (0 <= T) and c-tick(ps(S),T,S) .
+
+
+
+ ceq tick(T,S) = S if not c-tick(T,S) . 
+ ceq now(tick(T,S)) = now(S) + T if c-tick(T,S) .
+ eq ps(tick(T,S)) = ps(S) . 
+ eq loc(P,tick(T,S)) = loc(P,S) . 
+ ceq v(P,tick(T,S)) = (if loc(P,S) = start then 0 else nextv(P,T,S) fi) if c-tick(T,S) .
+ ceq x(P,tick(T,S)) = (if loc(P,S) = start then 0 else nextx(P,T,S) fi) if c-tick(T,S) .
+
+
+
+ eq c-enter(P,S) = (loc(P,S) = start) and (ps(S) = nil or x(last(ps(S)),S) > 0) .
+ ceq enter(P,S) = S if not c-enter(P,S) .
+ eq now(enter(P,S)) = now(S) . 
+ ceq ps(enter(P,S)) = P ps(S) if c-enter(P,S) . 
+ ceq loc(P',enter(P,S)) = (if P' = P then accel else loc(P',S) fi) if c-enter(P,S) .  
+ eq v(P',enter(P,S)) = v(P',S) . 
+ eq x(P',enter(P,S)) = x(P',S) . 
+
+ eq now(init) = 0 .
+ eq ps(init) = nil .
+ eq loc(P,init) = start .
+ eq v(P,init) = 0 . 
+ eq x(P,init) = 0 .
+
+
+ eq c-a(P,S) = not (loc(P,S) = start) .
+ ceq a(P,S) = S if not c-a(P,S) .
+ eq now(a(P,S)) = now(S) .
+ eq ps(a(P,S)) = ps(S) .
+ ceq loc(P',a(P,S)) = (if P' = P then accel else loc(P',S) fi) if c-a(P,S) .   
+ eq v(P',a(P,S)) = v(P', S) .
+ eq x(P',a(P,S)) = x(P', S) .
+
+ eq c-b(P,S) = not (loc(P,S) = start) .
+ ceq b(P,S) = S if not c-b(P,S) .
+ eq now(b(P,S)) = now(S) .
+ eq ps(b(P,S)) = ps(S) .
+ ceq loc(P',b(P,S)) = (if P' = P then brake else loc(P',S) fi) if c-b(P,S) .
+ eq v(P',b(P,S)) = v(P', S) .
+ eq x(P',b(P,S)) = x(P', S) .
+
+
+ eq c-n(P,S) = not (loc(P,S) = start) .
+ ceq n(P,S) = S if not c-n(P,S) .
+ eq now(n(P,S)) = now(S) .
+ eq ps(n(P,S)) = ps(S) .
+ ceq loc(P',n(P,S)) = (if P' = P then nothing else loc(P',S) fi) if c-n(P,S) .
+ eq v(P',n(P,S)) = v(P', S) .
+ eq x(P',n(P,S)) = x(P', S) .
+
+
+ eq X > X = false .
+  eq (0 * X) = 0 .
+
+-- ceq (B > C) = true if B >= D and D > C .  -- (1)
+ ceq (B = C) = false if B > C .  -- (2)
+
+--  ceq (B < C) = true if (((D + B) < C) and (D > 0)) . -- lemma1
+--  ceq (B < C + D) = true if (B < C) and (0 <= D) . -- lemma2
+--  ceq (B < C + D) = true if (8 + B < C) and (D >= (-8)) . -- lemma3
+--  ceq (A + B < C + A) = true if (B < C) = true . -- lemma4
+
+}
+
+mod! SAFE{
+  pr(MAINSYSTEM)
+  [Pid < PSet]
+  *[ Sys ]*
+
+ op safe : PSet Sys -> Bool
+ op Pr : PSet -> Bool
+ op s : -> Sys
+
+  var S : Sys
+  vars P Q : Pid
+  var PS : PSet
+ 
+  eq safe(nil,S) = true .
+
+  eq safe(P,S) = true .
+
+  eq safe(P Q,S) = (x(P,S) < x(Q,S)) .
+
+  eq safe(P Q PS,S) = safe(Q PS,S) and safe(P Q,S) .
+
+  eq Pr(PS) = (PS sub ps(s)) implies safe(PS,s) . 
+}
+
+-- Data-type properties used after module PSET has been loaded.
+mod VEHICLE-PSET-PROPERTIES {
+  pr(PSET)
+  op sub-refl : PSet -> Bool
+  op sub-tail : Pid Pid PSet PSet -> Bool
+  vars P Q : Pid . vars PS QS : PSet .
+  eq sub-refl(PS) = (PS sub PS) .
+  eq sub-tail(P,Q,PS,QS) =
+    ((P Q PS sub QS) implies (Q PS sub QS)) .
+}
+
+-- Properties of the recursive effective condition for tick.
+-- Module MAINSYSTEM must already be loaded.
+mod VEHICLE-SYSTEM-PROPERTIES {
+  pr(MAINSYSTEM)
+  op tick-member : Pid PSet Rat Sys -> Bool
+  var P : Pid . var PS : PSet . var T : Rat . var S : Sys .
+  eq tick-member(P,PS,T,S) =
+    ((c-tick(PS,T,S) and (P in PS)) implies c-tick(P,T,S)) .
+}
+
+mod INV{
+  pr(SAFE + VEHICLE-PSET-PROPERTIES)
+-- 20230111ecafeobj45edit
+
+   op inv1 : Pid Pid PSet Sys -> Bool
+   op inv2 : Pid Sys -> Bool
+   op inv3 : Pid Sys -> Bool
+   op inv4 : Pid Pid PSet Sys -> Bool
+   op inv5 : Pid Sys -> Bool
+   op inv6 : Pid Sys -> Bool
+
+
+   op lemma1 : PSet Rat Sys -> Bool
+
+   ops p q q' : -> Pid .
+   op qs' : -> PSet .
+
+   var S : Sys  
+   vars P Q Q' : Pid 
+   vars QS QS' : PSet 
+   var T : Rat
+
+
+
+   eq inv1(Q,Q',QS',S) = (Q Q' QS' sub ps(S) implies (x(Q,S) < x(Q',S))) . 
+   -- Tutorial-compatible invariant names.
+   eq inv2(P,S) = (loc(P,S) = start implies x(P,S) = 0) .
+   eq inv3(P,S) = ((P in ps(S)) implies not loc(P,S) = start) .
+   eq inv4(Q,Q',QS',S) = (Q Q' QS' sub ps(S) implies (x(Q,S) < (- 1/2 * v(Q,S) * v(Q,S)) + x(Q',S))) .
+   -- Additional velocity facts formerly hidden inside inv2/inv3.
+   eq inv5(P,S) = (loc(P,S) = start implies v(P,S) = 0) .
+   eq inv6(P,S) =
+     ((P in ps(S)) implies (0 <= v(P,S) and v(P,S) <= 4)) .
+   eq lemma1(QS,T,S) = ((c-tick(T,S) and (QS sub ps(S))) implies c-tick(QS,T,S)) .
+}
+
+mod ISTEP{
+  pr(INV) .
+
+  op istep1 : Pid Pid PSet -> Bool
+  op istep2 : Pid -> Bool
+  op istep3 : Pid -> Bool
+  op istep4 : Pid Pid PSet -> Bool
+  op istep5 : Pid -> Bool
+  op istep6 : Pid -> Bool
+  op s' : -> Sys                 -- ops s s' : -> Sys
+
+  vars P Q Q' : Pid 
+  var QS' : PSet 
+
+  eq istep1(Q,Q',QS') = inv1(Q,Q',QS',s) implies inv1(Q,Q',QS',s') .
+  eq istep2(Q) = inv2(Q,s) implies inv2(Q,s') .
+  eq istep3(Q) = inv3(Q,s) implies inv3(Q,s') .
+  eq istep4(Q,Q',QS') = inv4(Q,Q',QS',s) implies inv4(Q,Q',QS',s') .
+  eq istep5(Q) = inv5(Q,s) implies inv5(Q,s') .
+  eq istep6(Q) = inv6(Q,s) implies inv6(Q,s') .
+
+}

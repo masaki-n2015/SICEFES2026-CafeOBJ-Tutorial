@@ -1,0 +1,188 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / inv3.cafe
+-- Complete Proof Score for invariant inv3.
+
+in lemmas.cafe
+
+--> inv3 / init: inv3 / init
+open VEHICLE-PROOF-ENV .
+  red inv3(q,init) .
+close
+
+--> inv3 / a: inv3 / a
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = a(p1,s) .
+  eq c-a(p1,s) = true .
+  eq q = p1 .
+  red istep3(q) .
+close
+
+--> inv3 / a: inv3 / a
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = a(p1,s) .
+  eq c-a(p1,s) = true .
+  eq (q = p1) = false .
+  red istep3(q) .
+close
+
+--> inv3 / a: inv3 / a
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = a(p1,s) .
+  eq c-a(p1,s) = false .
+  red istep3(q) .
+close
+
+--> inv3 / n: inv3 / n
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = n(p1,s) .
+  eq c-n(p1,s) = true .
+  eq q = p1 .
+  red istep3(q) .
+close
+
+--> inv3 / n: inv3 / n
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = n(p1,s) .
+  eq c-n(p1,s) = true .
+  eq (q = p1) = false .
+  red istep3(q) .
+close
+
+--> inv3 / n: inv3 / n
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = n(p1,s) .
+  eq c-n(p1,s) = false .
+  red istep3(q) .
+close
+
+--> inv3 / b: inv3 / b
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = b(p1,s) .
+  eq c-b(p1,s) = true .
+  eq q = p1 .
+  red istep3(q) .
+close
+
+--> inv3 / b: inv3 / b
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = b(p1,s) .
+  eq c-b(p1,s) = true .
+  eq (q = p1) = false .
+  red istep3(q) .
+close
+
+--> inv3 / b: inv3 / b
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = b(p1,s) .
+  eq c-b(p1,s) = false .
+  red istep3(q) .
+close
+
+--> inv3 / enter: inv3 / enter: inv3: c-enter :true, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq q = p1 .
+  eq loc(q,s) = start .
+  eq x(q,s) = 0 .
+  eq v(q,s) = 0 .
+  eq x(p1,s) = 0 .
+  eq v(p1,s) = 0 .
+  red (inv2(q,s) and inv5(q,s)) implies istep3(q) .
+close
+
+--> inv3 / enter: inv3 / enter: inv3: c-enter :true, p1 =|= q'=|= q .
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq (q = p1) = false .
+  red istep3(q) .
+close
+
+--> inv3 / enter: c-enter true through ps(s) = nil, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq c-enter(p1,s) = true .
+  eq ps(s) = nil .
+  eq q = p1 .
+  eq loc(q,s) = start .
+  eq x(q,s) = 0 .
+  eq v(q,s) = 0 .
+  eq x(p1,s) = 0 .
+  eq v(p1,s) = 0 .
+  eq s' = enter(p1,s) .
+  red (inv2(q,s) and inv5(q,s)) implies istep3(q) .
+close
+
+--> inv3 / enter: c-enter true through ps(s) = nil, p1 != q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq c-enter(p1,s) = true .
+  eq ps(s) = nil .
+  eq (q = p1) = false .
+  eq s' = enter(p1,s) .
+  red istep3(q) .
+close
+
+--> inv3 / enter: inv3 / enter: inv3: c-enter :false
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq c-enter(p1,s) = false .
+  eq s' = enter(p1,s) .
+  red istep3(q) .
+close
+
+--> inv3 / tick: c-tick true, q' is in ps(s)
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (q' in ps(s)) = true .
+  eq c-tick(q',t1,s) = true .
+  eq (0 <= v(q',s)) = true .
+  eq (v(q',s) <= 4) = true .
+  eq (0 <= nextv(q',t1,s)) = true .
+  eq (nextv(q',t1,s) <= 4) = true .
+  eq (0 <= (v(q',s) + ac(loc(q',s)) * t1)) = true .
+  eq ((v(q',s) + ac(loc(q',s)) * t1) <= 4) = true .
+  red inv3(q',s) implies istep3(q') .
+close
+
+--> inv3 / tick: c-tick true, q' is not in ps(s)
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (q' in ps(s)) = false .
+  red istep3(q') .
+close
+
+--> inv3 / tick: inv3 / tick: c-tick = false
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = false .
+  eq s' = tick(t1,s) .
+  red istep3(q') .
+close

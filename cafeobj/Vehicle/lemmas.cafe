@@ -1,0 +1,21 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / lemmas.cafe
+-- Proved low-level helper lemmata used by the invariant Proof Scores.
+
+-- Low-level helper lemmata already established by the Proof Scores
+-- in auxiliary/.  These are used by inv1.cafe through inv6.cafe.
+-- VEHICLE-PSET-PROVED-LEMMAS is established by auxiliary/pset-properties.cafe.
+in main.cafe
+
+-- Derived PSet equations established by auxiliary/pset-properties.cafe.
+
+mod VEHICLE-PSET-PROVED-LEMMAS {
+  pr(VEHICLE-PSET-PROPERTIES)
+  var PS : PSet
+  eq (PS sub PS) = true .
+}
+
+-- Proof environment: the specification/istep modules plus proved PSet facts.
+mod VEHICLE-PROOF-ENV {
+  pr(ISTEP + VEHICLE-PSET-PROVED-LEMMAS + VEHICLE-SYSTEM-PROPERTIES)
+}

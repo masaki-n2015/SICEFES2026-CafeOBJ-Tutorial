@@ -1,0 +1,142 @@
+-- SICE FES 2026 Tutorial
+-- ABCf / inv1.cafe
+-- Complete Proof Score for invariant inv1.
+
+in main.cafe
+
+--> inv1 / init: inv1 / init: inv1 init
+open INV .
+  ops p1 p2 : -> Pid .
+  red inv1(init,p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab ~c-ab
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq c-ab(s,p3) = false .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1=p2
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq p1 = p2 .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1!=p2 p2=p3 p1=p3
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq (p1 = p2) = false .
+  eq p2 = p3 .
+  eq p1 = p3 .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1!=p2 p2=p3 p1!=p3 loc(s,p1)=b inv2
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq (p1 = p2) = false .
+  eq p2 = p3 .
+  eq (p1 = p3) = false .
+  eq loc(s,p1) = b .
+  red inv2(s,p1) implies istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1!=p2 p2=p3 p1!=p3 ~loc(s,p1)=b
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq (p1 = p2) = false .
+  eq p2 = p3 .
+  eq (p1 = p3) = false .
+  eq (loc(s,p1) = b) = false .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1!=p2 P2!=p3 p1=p3 loc(s,p2)=b inv2
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq (p1 = p2) = false .
+  eq (p2 = p3) = false .
+  eq p1 = p3 .
+  eq loc(s,p2) = b .
+  red inv2(s,p2) implies istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1!=p2 P2!=p3 p1=p3 ~loc(s,p2)=b
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq (p1 = p2) = false .
+  eq (p2 = p3) = false .
+  eq p1 = p3 .
+  eq (loc(s,p2) = b) = false .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / ab: inv1 / ab: inv1 ab c-ab p1!=p2 P2!=p3 p1!=p3
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = ab(s,p3) .
+  eq loc(s,p3) = a .
+  eq flag(s) = false .
+  eq (p1 = p2) = false .
+  eq (p2 = p3) = false .
+  eq (p1 = p3) = false .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / bc: inv1 / bc: inv1 bc ~c-bc
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq c-bc(s,p3) = false .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / bc: effective bc, p3 = p1
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq p3 = p1 .
+  eq loc(s,p1) = b .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / bc: effective bc, p3 != p1, p3 = p2
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq (p3 = p1) = false .
+  eq p3 = p2 .
+  eq loc(s,p2) = b .
+  red istep1(p1,p2) .
+close
+
+--> inv1 / bc: effective bc, p3 != p1, p3 != p2
+open INV .
+  ops p1 p2 p3 : -> Pid .
+  eq s' = bc(s,p3) .
+  eq (p3 = p1) = false .
+  eq (p3 = p2) = false .
+  eq loc(s,p3) = b .
+  red inv1(s,p1,p2) implies istep1(p1,p2) .
+close

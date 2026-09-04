@@ -1,0 +1,21 @@
+in PAIR.cafe
+
+mod PSET {
+  pr(PAIR)
+  [Pair < Pset]
+  op _ _ : Pset Pset -> Pset {assoc}
+  op min : Pset -> Rat+
+  op remove : Pid+ Pset -> Pset
+  op get : Pid+ Pset -> Rat+
+  vars PS : Pset .
+  var D : Rat+ .
+  vars I J : Pid .
+  eq min((nop | oo)) = oo .
+  eq min((I | D) PS) = min(D,min(PS)) .
+  eq remove(I,(nop | oo)) = (nop | oo) .
+  eq remove(I,(J | D) PS) =
+    (if I = J then PS else (J | D) remove(I,PS) fi) .
+  eq get(I,(nop | oo)) = oo .
+  eq get(I,(J | D) PS) =
+    (if I = J then D else get(I,PS) fi) .
+}

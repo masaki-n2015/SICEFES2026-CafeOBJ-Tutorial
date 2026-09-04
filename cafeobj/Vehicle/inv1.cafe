@@ -1,0 +1,1110 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / inv1.cafe
+-- Complete Proof Score for invariant inv1.
+
+in lemmas.cafe
+
+--> inv1 / init: inv1 / init
+open VEHICLE-PROOF-ENV .
+  red inv1(q,q',qs',init) .
+close
+
+--> inv1 / a: inv1 / a: istep1 : a
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = a(p1,s) .
+  eq c-a(p1,s) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / a: inv1 / a: istep1 : a
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = a(p1,s) .
+  eq c-a(p1,s) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / n: inv1 / n: istep1 : n
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = n(p1,s) .
+  eq c-n(p1,s) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / n: inv1 / n: istep1 : n
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = n(p1,s) .
+  eq c-n(p1,s) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / b: inv1 / b: istep1 : b
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = b(p1,s) .
+  eq c-b(p1,s) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / b: inv1 / b: istep1 : b
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  op p1 : -> Pid .
+  eq s' = b(p1,s) .
+  eq c-b(p1,s) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :true, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq p1 = q .
+  eq loc(q,s) = start .
+  eq (p1 = q') = false .
+  eq (q' = q) = false .
+  eq ps(s) = (q' qs') .
+  eq (x(q',s) > 0) = true .
+  eq (((q q') qs') sub qs') = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :true, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq p1 = q .
+  eq loc(q,s) = start .
+  eq (p1 = q') = false .
+  eq (q' = q) = false .
+  eq ps(s) = (q' qs') .
+  eq (x(q',s) > 0) = true .
+  eq (((q q') qs') sub qs') = false .
+  eq (x(q,s) < x(q',s)) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :true, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq p1 = q .
+  eq loc(q,s) = start .
+  eq (p1 = q') = false .
+  eq (q' = q) = false .
+  eq ps(s) = (q' qs') .
+  eq (x(q',s) > 0) = true .
+  eq (((q q') qs') sub qs') = false .
+  eq (x(q,s) < x(q',s)) = false .
+  eq (x(q,s) >= x(q',s)) = true .
+  ceq (x(q,s) > 0) = true if (x(q,s) >= x(q',s) and x(q',s) > 0) .
+  ceq (x(q,s) = 0) = false if x(q,s) > 0 .
+  red (inv2(q,s) and inv5(q,s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :true, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq p1 = q .
+  eq loc(q,s) = start .
+  eq (p1 = q') = false .
+  eq (q' = q) = false .
+  eq ps(s) = (q' qs') .
+  eq (x(q',s) > 0) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :true, p1 = q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq p1 = q .
+  eq loc(q,s) = start .
+  eq (p1 = q') = false .
+  eq (q' = q) = false .
+  eq (ps(s) = (q' qs')) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :true, p1 =|= q
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq loc(p1,s) = start .
+  eq (x(last(ps(s)),s) > 0) = true .
+  eq s' = enter(p1,s) .
+  eq (p1 = q) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: c-enter true through ps(s) = nil
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq c-enter(p1,s) = true .
+  eq ps(s) = nil .
+  eq s' = enter(p1,s) .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / enter: inv1 / enter: inv1: c-enter :false
+open VEHICLE-PROOF-ENV .
+  op p1 : -> Pid .
+  eq c-enter(p1,s) = false .
+  eq s' = enter(p1,s) .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq loc(q',s) = start .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q' in ps(s)) = true .
+  eq (q in ps(s)) = true .
+  eq (q' in ps(s)) = true .
+  red (inv3(q',s) and inv6(q',s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq loc(q',s) = start .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq loc(q',s) = start .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (0 < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (0 < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q in ps(s)) = true .
+  red (inv3(q,s) and inv6(q,s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (0 < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (0 < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (0 < (x(q',s) + (t1 * v(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (0 < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q in ps(s)) = true .
+  red (inv3(q,s) and inv6(q,s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (0 < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (0 < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (0 < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (0 < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q in ps(s)) = true .
+  red (inv3(q,s) and inv6(q,s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (0 < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:start,q'brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq loc(q,s) = start .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (0 < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q':start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < 0) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q':start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q' in ps(s)) = true .
+  red (inv3(q',s) and inv6(q',s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q':start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q':start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq ((t1 + v(q',s)) <= 4) = true .
+  eq (0 <= (t1 + v(q',s))) = true .
+  eq (0 <= (t1 + v(q,s))) = true .
+  eq ((t1 + v(q,s)) <= 4) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  eq ((8 + (x(q,s) + ((v(q,s) * t1) + (1/2 * (t1 * t1))))) < ((1/2 * (t1 * t1)) + (x(q',s) + (t1 * v(q',s))))) = true .
+  ceq ((x(q,s) + ((t1 * v(q,s)) + (1/2 * (t1 * t1)))) < (x(q',s) + ((t1 * v(q',s)) + (1/2 * (t1 * t1))))) = true if ((8 + (x(q,s) + ((v(q,s) * t1) + (1/2 * (t1 * t1))))) < ((1/2 * (t1 * t1)) + (x(q',s) + (t1 * v(q',s))))) .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (v(q',s) <= 4) = true .
+  eq (0 <= v(q',s)) = true .
+  eq ((8 + (x(q,s) + ((v(q,s) * t1) + (1/2 * (t1 * t1))))) < (x(q',s) + (t1 * v(q',s)))) = true .
+  eq (0 <= (t1 + v(q,s))) = true .
+  eq ((t1 + v(q,s)) <= 4) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = true if ((8 + (x(q,s) + ((v(q,s) * t1) + (1/2 * (t1 * t1))))) < (x(q',s) + (t1 * v(q',s)))) = true .
+  red (inv3(q',s) and inv6(q',s)) implies (istep1(q,q',qs')) .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = brake .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (((-1 * t1) + v(q',s)) <= 4) = true .
+  eq (0 <= ((-1 * t1) + v(q',s))) = true .
+  eq ((8 + (x(q,s) + ((v(q,s) * t1) + (1/2 * (t1 * t1))))) < ((-1/2 * (t1 * t1)) + (x(q',s) + (v(q',s) * t1)))) = true .
+  eq (0 <= (t1 + v(q,s))) = true .
+  eq ((t1 + v(q,s)) <= 4) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true if ((8 + (x(q,s) + ((v(q,s) * t1) + (1/2 * (t1 * t1))))) < ((-1/2 * (t1 * t1)) + (x(q',s) + (v(q',s) * t1)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: inv1: c-tick :true, --> q:accel,q': brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = accel .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq loc(q',s) = start .
+  eq ((x(q,s) + (t1 * v(q,s))) < 0) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq loc(q',s) = start .
+  eq ((x(q,s) + (t1 * v(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q' in ps(s)) = true .
+  eq c-tick(q q',t1,s) = true .
+  red (inv3(q',s) and inv6(q',s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq loc(q',s) = start .
+  eq ((x(q,s) + (t1 * v(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq loc(q',s) = start .
+  eq ((x(q,s) + (t1 * v(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q' accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq ((x(q,s) + (t1 * v(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq c-tick(q q' qs',t1,s) = true .
+  eq v(q,s) = 0 .
+  eq ((t1 + v(q',s)) <= 4) = true .
+  eq (0 <= v(q,s)) = true .
+  eq (v(q,s) <= 4) = true .
+  eq (0 <= (t1 + v(q',s))) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (x(q,s) < (x(q',s) + ((t1 * v(q',s)) + (1/2 * (t1 * t1))))) = true if (x(q,s) < x(q',s)) = true .
+  red (inv3(q,s) and inv6(q,s)) implies (istep1(q,q',qs')) .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq ((x(q,s) + (t1 * v(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq ((x(q,s) + (t1 * v(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q' nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq ((x(q,s) + (t1 * v(q,s))) < (x(q',s) + (t1 * v(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to nothing: part 1
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq v(q,s) = 0 .
+  eq (v(q',s) <= 4) = true .
+  eq (0 <= v(q,s)) = true .
+  eq (v(q,s) <= 4) = true .
+  eq (0 <= v(q',s)) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (x(q,s) < (x(q',s) + (t1 * v(q',s)))) = true if (x(q,s) < x(q',s)) = true .
+  red (inv3(q,s) and inv6(q,s)) and (inv3(q',s) and inv6(q',s)) implies (istep1(q,q',qs')) .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to nothing: part 1
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq ((x(q,s) + (t1 * v(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to nothing: part 1
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq ((x(q,s) + (t1 * v(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:nothing,q' brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq ((x(q,s) + (t1 * v(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to brake: part 2
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (0 < v(q,s)) = true .
+  eq (((-1 * t1) + v(q',s)) <= 4) = true .
+  eq (v(q,s) <= 4) = true .
+  eq (0 <= v(q,s)) = true .
+  eq (0 <= ((-1 * t1) + v(q',s))) = true .
+  eq ((8 + ((v(q,s) * t1) + x(q,s))) < ((v(q',s) * t1) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq ((x(q,s) + (t1 * v(q,s))) < (x(q',s) + ((t1 * v(q',s)) + (-1/2 * (t1 * t1))))) = true if ((8 + ((v(q,s) * t1) + x(q,s))) < ((v(q',s) * t1) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red (inv3(q,s) and inv6(q,s)) implies (istep1(q,q',qs')) .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to brake: part 2
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq ((x(q,s) + (t1 * v(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: nothing to brake: part 2
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = nothing .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq ((x(q,s) + (t1 * v(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < 0) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (q' in ps(s)) = true .
+  eq c-tick(q q',t1,s) = true .
+  red (inv3(q',s) and inv6(q',s)) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'start
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq loc(q',s) = start .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < 0) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq ((t1 + v(q',s)) <= 4) = true .
+  eq (0 <= (t1 + v(q',s))) = true .
+  eq (0 <= (v(q,s) + (-1 * t1))) = true .
+  eq ((v(q,s) + (-1 * t1)) <= 4) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (x(q,s) < (-1/2 * v(q,s) * v(q,s)) + x(q',s)) = false if (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  red inv6(q',s) implies
+      (inv4(q,q',qs',s) implies istep1(q,q',qs')) .
+close
+
+--> inv1 / tick: inv1 / tick: brake to accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to accel
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = accel .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (v(q',s) <= 4) = true .
+  eq (0 <= v(q',s)) = true .
+  eq (0 <= (v(q,s) + (-1 * t1))) = true .
+  eq ((v(q,s) + (-1 * t1)) <= 4) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (x(q,s) < (-1/2 * v(q,s) * v(q,s)) + x(q',s)) = false if (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  red (inv3(q',s) and inv6(q',s)) implies (inv4(q,q',qs',s) implies istep1(q,q',qs')) .
+close
+
+--> inv1 / tick: inv1 / tick: brake to nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to nothing
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = nothing .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < (x(q',s) + (t1 * v(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: q:brake,q'brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = true .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = true .
+  eq (((-1 * t1) + v(q',s)) <= 4) = true .
+  eq (0 <= ((-1 * t1) + v(q',s))) = true .
+  eq (0 <= (v(q,s) + (-1 * t1))) = true .
+  eq ((v(q,s) + (-1 * t1)) <= 4) = true .
+  eq c-tick((q' qs'),t1,s) = true .
+  ceq (x(q,s) < (-1/2 * v(q,s) * v(q,s)) + x(q',s)) = false if (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  red inv4(q,q',qs',s) implies istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = true .
+  eq (((q q') qs') sub ps(s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: brake to brake
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = true .
+  eq s' = tick(t1,s) .
+  eq (loc(q,s) = start) = false .
+  eq loc(q,s) = brake .
+  eq (loc(q',s) = start) = false .
+  eq loc(q',s) = brake .
+  eq (((t1 * v(q,s)) + ((-1/2 * (t1 * t1)) + x(q,s))) < ((t1 * v(q',s)) + ((-1/2 * (t1 * t1)) + x(q',s)))) = false .
+  eq (x(q,s) < x(q',s)) = false .
+  red istep1(q,q',qs') .
+close
+
+--> inv1 / tick: inv1 / tick: c-tick = false
+open VEHICLE-PROOF-ENV .
+  op t1 : -> Rat .
+  eq c-tick(t1,s) = false .
+  eq s' = tick(t1,s) .
+  red istep1(q,q',qs') .
+close

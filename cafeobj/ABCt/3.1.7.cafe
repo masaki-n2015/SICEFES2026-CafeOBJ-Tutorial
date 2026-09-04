@@ -1,0 +1,11 @@
+in ABCt.cafe
+
+open ABCt .
+  op p1 : -> Pid .
+  ops s1 s2 s3 : -> Sys .
+  eq s1 = ab(init,p1) .
+  eq s2 = tick(2,s1) .
+  eq s3 = bc(s2,p1) .
+  red loc(s3,p1) .
+  red now(s3) .
+close

@@ -1,0 +1,30 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / safety.cafe
+-- Structural-induction proof of the generalized vehicle safety property.
+-- The nontrivial constructor case is reduced to invariant inv1.
+
+in main.cafe
+
+--> safe / base: PS = nil
+open INV .
+  red Pr(nil) .
+close
+
+--> safe / constructor: QS = nil
+open INV .
+  red Pr(nil) implies Pr(q nil) .
+close
+
+--> safe / constructor: QS = q' qs', whole sequence is not a subsequence
+open INV .
+  eq (((q q') qs') sub ps(s)) = false .
+  red Pr(q' qs') implies Pr(q q' qs') .
+close
+
+--> safe / constructor: QS = q' qs', whole sequence is a subsequence
+open INV .
+  eq (((q q') qs') sub ps(s)) = true .
+  red sub-tail(q,q',qs',ps(s)) implies
+      inv1(q,q',qs',s) implies
+      (Pr(q' qs') implies Pr(q q' qs')) .
+close

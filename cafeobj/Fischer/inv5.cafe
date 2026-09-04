@@ -1,0 +1,226 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / inv5.cafe
+-- Complete Proof Score for invariant inv5.
+
+in lemmas.cafe
+
+--> inv5 / init: inv5 / init: init
+open FISCHER-PROOF-ENV .
+  ops i j : -> Pid .
+  red inv5(init,i) .
+close
+
+--> inv5 / try: inv5 / try: bop try : c-try
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq s' = try(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / try: inv5 / try: bop try : not c-try
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-try(s,k) = false .
+  eq s' = try(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / test: inv5 / test: bop test : c-test, i = k , j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq i = k .
+  eq j = k .
+  eq s' = test(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / test: inv5 / test: bop test : c-test, i != k , j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = test(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / test: inv5 / test: bop test : c-test, i = k , j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = test(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / test: inv5 / test: bop test : c-test, i != k , j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = test(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / test: inv5 / test: bop test : c-test, i != k , j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = test(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / test: inv5 / test: bop test : not c-test
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-test(s,k) = false .
+  eq s' = test(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / set: inv5 / set: bop set : c-set, i = k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq i = k .
+  eq j = k .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep5(i) .
+close
+
+--> inv5 / set: inv5 / set: bop set : c-set, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep5(i) .
+close
+
+--> inv5 / set: inv5 / set: bop set : c-set, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep5(i) .
+close
+
+--> inv5 / set: inv5 / set: bop set : c-set, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep5(i) .
+close
+
+--> inv5 / set: inv5 / set: bop set : c-set, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep5(i) .
+close
+
+--> inv5 / set: inv5 / set: bop set : not c-set
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-set(s,k) = false .
+  eq s' = set(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / check: inv5 / check: bop check : c-check
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq s' = check(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / check: inv5 / check: bop check : not c-check
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-check(s,k) = false .
+  eq s' = check(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / exit: inv5 / exit: bop exit : c-exit
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq s' = exit(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / exit: inv5 / exit: bop exit : not c-exit
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-exit(s,k) = false .
+  eq s' = exit(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / reset: inv5 / reset: bop reset : c-reset
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq s' = reset(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / reset: inv5 / reset: bop reset : not c-reset
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-reset(s,k) = false .
+  eq s' = reset(s,k) .
+  red istep5(i) .
+close
+
+--> inv5 / tick: inv5 / tick: bop tick : c-tick
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  op d : -> Rat .
+  eq ((now(s) + d) <= min(u(s))) = true .
+  eq (0 <= d) = true .
+  eq s' = tick(d,s) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep5(i) .
+close
+
+--> inv5 / tick: inv5 / tick: bop tick : not c-tick
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  op d : -> Rat .
+  eq c-tick(d,s) = false .
+  eq s' = tick(d,s) .
+  red istep5(i) .
+close

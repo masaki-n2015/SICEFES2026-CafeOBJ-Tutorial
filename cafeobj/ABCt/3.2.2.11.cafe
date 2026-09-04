@@ -1,0 +1,27 @@
+in ABCt2.cafe
+
+open ABCt2 .
+  ops p1 p2 : -> Pid .
+  ops s1 s2 s3 s100 s101 s200 s201 : -> Sys .
+  eq (p1 = p2) = false .
+  eq s1 = ab(tick(2,ab(init,p1)),p2) .
+  eq s100 = bc(s1,p1) . -- failed
+  eq s101 = tick(4,s1) . -- failed
+  eq s2 = bc(tick(2,s1),p1) .
+  eq s200 = bc(s2,p2) . -- failed
+  eq s201 = tick(4,s2) . -- failed
+  eq s3 = bc(tick(2,s2),p2) .
+  red loc(s1,p1) . --> should be b
+  red loc(s1,p2) . --> should be b
+  red now(s1) . --> should be 2
+  red loc(s100,p1) . --> should not be c
+  red now(s101) . --> should not be 6
+  red loc(s2,p1) . --> should be c
+  red loc(s2,p2) . --> should be b
+  red now(s2) . --> should be 4
+  red loc(s200,p2) . --> should not be c
+  red now(s201) . --> should not be 8
+  red loc(s3,p1) . --> should be c
+  red loc(s3,p2) . --> should be c
+  red now(s3) . --> should be 6
+close

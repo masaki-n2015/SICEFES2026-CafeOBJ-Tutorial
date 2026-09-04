@@ -1,0 +1,8 @@
+in PID+.cafe
+in TIMEVAL.cafe
+
+mod PAIR {
+  pr(PID+ + TIMEVAL)
+  [Pair]
+  op _|_ : Pid+ Rat+ -> Pair
+}

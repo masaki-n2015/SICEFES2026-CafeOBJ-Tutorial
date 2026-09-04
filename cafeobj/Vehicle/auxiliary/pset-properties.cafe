@@ -1,0 +1,45 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / auxiliary/pset-properties.cafe
+-- Data-type lemmas used by the Vehicle Proof Scores.
+
+in ../main.cafe
+
+--> sub-refl / base: PS = nil
+open VEHICLE-PSET-PROPERTIES .
+  red sub-refl(nil) .
+close
+
+--> sub-refl / constructor: PS = r rs
+open VEHICLE-PSET-PROPERTIES .
+  op r : -> Pid . op rs : -> PSet .
+  red sub-refl(r rs) .
+close
+
+--> sub-tail / base: QS = nil
+open VEHICLE-PSET-PROPERTIES .
+  ops p q : -> Pid . op ps : -> PSet .
+  red sub-tail(p,q,ps,nil) .
+close
+
+--> sub-tail / constructor: p = r and q ps = rs
+open VEHICLE-PSET-PROPERTIES .
+  ops p q r : -> Pid . ops ps rs : -> PSet .
+  eq p = r .
+  eq q ps = rs .
+  red sub-refl(rs) implies sub-tail(p,q,ps,r rs) .
+close
+
+--> sub-tail / constructor: p != r
+open VEHICLE-PSET-PROPERTIES .
+  ops p q r : -> Pid . ops ps rs : -> PSet .
+  eq (p = r) = false .
+  red sub-tail(p,q,ps,rs) implies sub-tail(p,q,ps,r rs) .
+close
+
+--> sub-tail / constructor: p = r and q ps != rs
+open VEHICLE-PSET-PROPERTIES .
+  ops p q r : -> Pid . ops ps rs : -> PSet .
+  eq p = r .
+  eq (q ps = rs) = false .
+  red sub-tail(p,q,ps,rs) implies sub-tail(p,q,ps,r rs) .
+close

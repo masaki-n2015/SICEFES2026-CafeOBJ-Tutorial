@@ -1,0 +1,466 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / inv4.cafe
+-- Complete Proof Score for invariant inv4.
+
+in lemmas.cafe
+
+--> inv4 / init: inv4 / init: init
+open FISCHER-PROOF-ENV .
+  ops i j : -> Pid .
+  red inv4(init,i) .
+close
+
+--> inv4 / try: inv4 / try: bop try : c-try, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq i = k .
+  eq j = k .
+  eq s' = try(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / try: inv4 / try: bop try : c-try, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = try(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / try: inv4 / try: bop try : c-try, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = try(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / try: inv4 / try: bop try : c-try, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = try(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / try: inv4 / try: bop try : c-try, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = try(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / try: inv4 / try: bop try : not c-try
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-try(s,k) = false .
+  eq s' = try(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / test: inv4 / test: bop test : c-test, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq i = k .
+  eq j = k .
+  eq s' = test(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / test: inv4 / test: bop test : c-test, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = test(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / test: inv4 / test: bop test : c-test, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = test(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / test: inv4 / test: bop test : c-test, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = test(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / test: inv4 / test: bop test : c-test, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = test(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / test: inv4 / test: bop test : not c-test
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-test(s,k) = false .
+  eq s' = test(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : c-set, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq i = k .
+  eq j = k .
+  eq s' = set(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : c-set, i != k, j = k, loc(s,i) = c
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq j = k .
+  eq loc(s,i) = c .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : c-set, i != k, j = k, loc(s,i) != c
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq j = k .
+  eq (loc(s,i) = c) = false .
+  eq s' = set(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : c-set, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = set(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : c-set, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : c-set, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = set(s,k) .
+  eq wf(u(s)) = true .
+  red wf-u(s) implies istep4(i) .
+close
+
+--> inv4 / set: inv4 / set: bop set : not c-set
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-set(s,k) = false .
+  eq s' = set(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i = j = k, turn(s) = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq j = k .
+  eq turn(s) = k .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i = j = k, turn(s) != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq j = k .
+  eq (turn(s) = k) = false .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i = k, j != k, turn(s) = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq (j = k) = false .
+  eq turn(s) = k .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i = k, j != k, turn(s) != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq (j = k) = false .
+  eq (turn(s) = k) = false .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : c-check, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / check: inv4 / check: bop check : not c-check
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-check(s,k) = false .
+  eq s' = check(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / exit: inv4 / exit: bop exit : c-exit, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq i = k .
+  eq j = k .
+  eq s' = exit(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / exit: inv4 / exit: bop exit : c-exit, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = exit(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / exit: inv4 / exit: bop exit : c-exit, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = exit(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / exit: inv4 / exit: bop exit : c-exit, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = exit(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / exit: inv4 / exit: bop exit : c-exit, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = exit(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / exit: inv4 / exit: bop exit : not c-exit
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-exit(s,k) = false .
+  eq s' = exit(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / reset: inv4 / reset: bop reset : c-reset, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq i = k .
+  eq j = k .
+  eq s' = reset(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / reset: inv4 / reset: bop reset : c-reset, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = reset(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / reset: inv4 / reset: bop reset : c-reset, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = reset(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / reset: inv4 / reset: bop reset : c-reset, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = reset(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / reset: inv4 / reset: bop reset : c-reset, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = reset(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / reset: inv4 / reset: bop reset : not c-reset
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-reset(s,k) = false .
+  eq s' = reset(s,k) .
+  red istep4(i) .
+close
+
+--> inv4 / tick: inv4 / tick: bop tick : c-tick, loc(s,i) = c, (get(i,u(s)) < (now(s) + d2)
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  op d : -> Rat .
+  eq ((now(s) + d) <= min(u(s))) = true .
+  eq (0 <= d) = true .
+  eq loc(s,i) = c .
+  eq (get(i,u(s)) < (now(s) + d2)) = true .
+  eq s' = tick(d,s) .
+  red istep4(i) .
+close
+
+--> inv4 / tick: inv4 / tick: bop tick : c-tick, loc(s,i) = c, (get(i,u(s)) !< (now(s) + d2)
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  op d : -> Rat .
+  eq ((now(s) + d) <= min(u(s))) = true .
+  eq (0 <= d) = true .
+  eq loc(s,i) = c .
+  eq (get(i,u(s)) < (now(s) + d2)) = false .
+  eq s' = tick(d,s) .
+  red istep4(i) .
+close
+
+--> inv4 / tick: inv4 / tick: bop tick : c-tick, loc(s,i) != c
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  op d : -> Rat .
+  eq ((now(s) + d) <= min(u(s))) = true .
+  eq (0 <= d) = true .
+  eq (loc(s,i) = c) = false .
+  eq s' = tick(d,s) .
+  red istep4(i) .
+close
+
+--> inv4 / tick: inv4 / tick: bop tick : not c-tick
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  op d : -> Rat .
+  eq c-tick(d,s) = false .
+  eq s' = tick(d,s) .
+  red istep4(i) .
+close

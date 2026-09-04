@@ -1,0 +1,20 @@
+mod* TIMEVAL {
+  ex(RAT)
+  [Rat < Rat+]
+  op oo : -> Rat+
+  op _<_ : Rat+ Rat+ -> Bool
+  op _<=_ : Rat+ Rat+ -> Bool
+  op _+_ : Rat+ Rat+ -> Rat+
+  op min : Rat+ Rat+ -> Rat+
+  var X : Rat
+  vars D1 D2 : Rat+
+  eq X < oo = true .
+  eq oo < X = false .
+  eq X <= oo = true .
+  eq oo <= X = false .
+  eq X + oo = oo .
+  eq oo + X = oo .
+  eq oo + oo = oo .
+  ceq min(D1,D2) = D1 if D1 <= D2 .
+  ceq min(D1,D2) = D2 if D2 <= D1 .
+}

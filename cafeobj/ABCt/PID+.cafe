@@ -1,0 +1,12 @@
+in PID.cafe
+
+mod! PID+ {
+  ex(PID)
+  [Pid < Pid+]
+  op _=_ : Pid+ Pid+ -> Bool {comm}
+  op nop : -> Pid+
+  var X : Pid
+  var Z : Pid+
+  eq (X = nop) = false .
+  eq (Z = Z) = true .
+}

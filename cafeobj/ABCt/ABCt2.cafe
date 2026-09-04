@@ -1,0 +1,45 @@
+in LOC.cafe
+in PSET.cafe
+
+mod* ABCt2 {
+  pr(LOC + PSET + TIMEVAL)
+  *[Sys]*
+  op init : -> Sys
+  bop loc : Sys Pid -> Loc
+  bop now : Sys -> Rat
+  bop l : Sys Pid -> Rat
+  bop u : Sys -> Pset
+  bops ab bc : Sys Pid -> Sys
+  ops c-ab c-bc : Sys Pid -> Bool
+  bop tick : Rat Sys -> Sys
+  op c-tick : Rat Sys -> Bool
+  var S : Sys .
+  vars I J : Pid .
+  var D : Rat .
+  eq loc(init,I) = a .
+  eq now(init) = 0 .
+  eq l(init,I) = 0 .
+  eq u(init) = (nop | oo) .
+  eq c-ab(S,I) = (loc(S,I) = a) .
+  ceq ab(S,I) = S if not c-ab(S,I) .
+  ceq loc(ab(S,I),J) =
+    (if I = J then b else loc(S,J) fi) if c-ab(S,I) .
+  eq now(ab(S,I)) = now(S) .
+  ceq l(ab(S,I),J) =
+    (if I = J then now(S) + 3 else l(S,J) fi) if c-ab(S,I) .
+  ceq u(ab(S,I)) = (I | now(S) + 5) u(S) if c-ab(S,I) .
+  eq c-bc(S,I) = (loc(S,I) = b) and (l(S,I) <= now(S)) .
+  ceq bc(S,I) = S if not c-bc(S,I) .
+  ceq loc(bc(S,I),J) =
+    (if I = J then c else loc(S,J) fi) if c-bc(S,I) .
+  eq now(bc(S,I)) = now(S) .
+  eq l(bc(S,I),J) = l(S,J) .
+  ceq u(bc(S,I)) = remove(I,u(S)) if c-bc(S,I) .
+  eq c-tick(D,S) =
+    (0 <= D) and (now(S) + D <= min(u(S))) .
+  ceq tick(D,S) = S if not c-tick(D,S) .
+  eq loc(tick(D,S),J) = loc(S,J) .
+  ceq now(tick(D,S)) = now(S) + D if c-tick(D,S) .
+  eq l(tick(D,S),I) = l(S,I) .
+  eq u(tick(D,S)) = u(S) .
+}

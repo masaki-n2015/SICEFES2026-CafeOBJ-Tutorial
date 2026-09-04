@@ -1,0 +1,112 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / auxiliary/wf-u.cafe
+-- Complete Proof Score for preservation of the well-formed PSET representation.
+
+in ../main.cafe
+
+-- Prerequisite PSET facts, proved independently in pset-lemmas.cafe.
+mod FISCHER-RAT-LEMMAS {
+  pr(TIMEVAL)
+  var A : Rat+
+  vars B D : Rat
+  var C : Rat+
+  vars X Y Z : Rat
+  ceq A < ((D + B) + C) = true if A < (B + C) and (0 <= D) .
+  ceq (X + Y) < (Y + Z) = true if X < Z .
+  ceq A < (B + (D + X)) = true if A < (B + X) and (0 <= D) .
+}
+
+-- Derived equations established by pset-lemmas.cafe.
+
+mod PSET-LEMMAS {
+  pr(PSET-WF)
+  op wf-remove : Pid Pset -> Bool
+  vars I J : Pid
+  var D : Rat
+  var PS : Pset
+  eq wf-remove(I,PS) = (wf(PS) implies wf(remove(I,PS))) .
+  ceq wf(remove(I,PS)) = true if wf(PS) .
+  ceq get(I,remove(J,PS)) = get(I,PS)
+    if wf(PS) and not(I = J) .
+  ceq get(I,remove(I,PS)) = oo if wf(PS) .
+  ceq D <= min(remove(I,PS)) = true
+    if wf(PS) and D <= min(PS) .
+  ceq D <= get(I,PS) = true
+    if wf(PS) and D <= min(PS) .
+}
+
+mod FISCHER-WF-PROOF-ENV {
+  pr(ISTEP + FISCHER-RAT-LEMMAS + PSET-LEMMAS)
+}
+
+--> wf-u / init
+open FISCHER-WF-PROOF-ENV .
+  red wf-u(init) .
+close
+
+--> wf-u / try
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = try(s,k) .
+  red wfstep .
+close
+
+--> wf-u / test: effective
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = test(s,k) .
+  eq c-test(s,k) = true .
+  red wfstep .
+close
+
+--> wf-u / test: ineffective
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = test(s,k) .
+  eq c-test(s,k) = false .
+  red wfstep .
+close
+
+--> wf-u / set: effective
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = set(s,k) .
+  eq c-set(s,k) = true .
+  red wf-remove(k,u(s)) implies wfstep .
+close
+
+--> wf-u / set: ineffective
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = set(s,k) .
+  eq c-set(s,k) = false .
+  red wfstep .
+close
+
+--> wf-u / check
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = check(s,k) .
+  red wfstep .
+close
+
+--> wf-u / exit
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = exit(s,k) .
+  red wfstep .
+close
+
+--> wf-u / reset
+open FISCHER-WF-PROOF-ENV .
+  op k : -> Pid .
+  eq s' = reset(s,k) .
+  red wfstep .
+close
+
+--> wf-u / tick
+open FISCHER-WF-PROOF-ENV .
+  op t : -> Rat .
+  eq s' = tick(t,s) .
+  red wfstep .
+close

@@ -1,0 +1,426 @@
+-- SICE FES 2026 Tutorial
+-- Fischer / inv1.cafe
+-- Complete Proof Score for invariant inv1.
+
+in lemmas.cafe
+
+--> inv1 / init: inv1 / init: init
+open FISCHER-PROOF-ENV .
+  ops i j : -> Pid .
+  red inv1(init,i,j) .
+close
+
+--> inv1 / try: inv1 / try: bop try : Sys Pid -> Sys, c-try, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq i = k .
+  eq j = k .
+  eq s' = try(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / try: inv1 / try: bop try : Sys Pid -> Sys, c-try, i = k ,j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = try(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / try: inv1 / try: bop try : Sys Pid -> Sys, c-try, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = try(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / try: inv1 / try: bop try : Sys Pid -> Sys, c-try, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = try(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / try: inv1 / try: bop try : Sys Pid -> Sys, c-try, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = a .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = try(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / try: inv1 / try: bop try : Sys Pid -> Sys, not c-try
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-try(s,k) = false .
+  eq s' = try(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / test: inv1 / test: bop test : Sys Pid -> Sys, c-test, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq i = k .
+  eq j = k .
+  eq s' = test(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / test: inv1 / test: bop test : Sys Pid -> Sys, c-test, i = k , j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = test(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / test: inv1 / test: bop test : Sys Pid -> Sys, c-test, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = test(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / test: inv1 / test: bop test : Sys Pid -> Sys, c-test, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = test(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / test: inv1 / test: bop test : Sys Pid -> Sys, c-test, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = b .
+  eq turn(s) = nop .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = test(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / test: inv1 / test: bop test : Sys Pid -> Sys, not c-test
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-test(s,k) = false .
+  eq s' = test(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / set: inv1 / set: bop set : Sys Pid -> Sys, c-set, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq i = k .
+  eq j = k .
+  eq s' = set(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / set: inv1 / set: bop set : Sys Pid -> Sys, c-set, i = k , j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = set(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / set: inv1 / set: bop set : Sys Pid -> Sys, c-set, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = set(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / set: inv1 / set: bop set : Sys Pid -> Sys, c-set, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = set(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / set: inv1 / set: bop set : Sys Pid -> Sys, c-set, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = c .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = set(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / set: inv1 / set: bop set : Sys Pid -> Sys, not c-set
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-set(s,k) = false .
+  eq s' = set(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq j = k .
+  eq s' = check(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i = k ,j != k, turn(s) = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq (j = k) = false .
+  eq turn(s) = k .
+  eq s' = check(s,k) .
+  red inv2(s,j,i) implies istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i = k ,j != k, turn(s) != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq i = k .
+  eq (j = k) = false .
+  eq (turn(s) = k) = false .
+  eq s' = check(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i != k, j = k, turn(s) = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq j = k .
+  eq turn(s) = k .
+  eq s' = check(s,k) .
+  red inv2(s,i,j) implies istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i != k, j = k, turn(s) != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq j = k .
+  eq (turn(s) = k) = false .
+  eq s' = check(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = check(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, c-check, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = d .
+  eq (l(s,k) <= now(s)) = true .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = check(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / check: inv1 / check: bop check : Sys Pid -> Sys, not c-check
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-check(s,k) = false .
+  eq s' = check(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / exit: inv1 / exit: bop exit : Sys Pid -> Sys, c-exit, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq i = k .
+  eq j = k .
+  eq s' = exit(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / exit: inv1 / exit: bop exit : Sys Pid -> Sys, c-exit, i = k ,not(j = k)
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = exit(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / exit: inv1 / exit: bop exit : Sys Pid -> Sys, c-exit, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = exit(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / exit: inv1 / exit: bop exit : Sys Pid -> Sys, c-exit, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = exit(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / exit: inv1 / exit: bop exit : Sys Pid -> Sys, c-exit, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = cs .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = exit(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / exit: inv1 / exit: bop exit : Sys Pid -> Sys, not c-exit
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-exit(s,k) = false .
+  eq s' = exit(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / reset: inv1 / reset: bop reset : Sys Pid -> Sys, c-reset, i = j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq i = k .
+  eq j = k .
+  eq s' = reset(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / reset: inv1 / reset: bop reset : Sys Pid -> Sys, c-reset, i != k, j = k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq (i = k) = false .
+  eq j = k .
+  eq s' = reset(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / reset: inv1 / reset: bop reset : Sys Pid -> Sys, c-reset, i = k, j != k
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq i = k .
+  eq (j = k) = false .
+  eq s' = reset(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / reset: inv1 / reset: bop reset : Sys Pid -> Sys, c-reset, i != k, j != k, i = j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq i = j .
+  eq s' = reset(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / reset: inv1 / reset: bop reset : Sys Pid -> Sys, c-reset, i != k, j != k, i != j
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq loc(s,k) = e .
+  eq (i = k) = false .
+  eq (j = k) = false .
+  eq (i = j) = false .
+  eq s' = reset(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / reset: inv1 / reset: bop reset : Sys Pid -> Sys, not c-reset
+open FISCHER-PROOF-ENV .
+  ops i j k : -> Pid .
+  eq c-reset(s,k) = false .
+  eq s' = reset(s,k) .
+  red istep1(i,j) .
+close
+
+--> inv1 / tick: inv1 / tick: bop tick : Rat Sys -> Sys, c-tick
+open FISCHER-PROOF-ENV .
+  ops i j : -> Pid .
+  op t : -> Rat .
+  eq (now(s) + t <= min(u(s))) = true .
+  eq (0 <= t) = true .
+  eq s' = tick(t,s) .
+  red istep1(i,j) .
+close
+
+--> inv1 / tick: inv1 / tick: bop tick : Rat Sys -> Sys, not c-tick
+open FISCHER-PROOF-ENV .
+  ops i j : -> Pid .
+  op t : -> Rat .
+  eq c-tick(t,s) = false .
+  eq s' = tick(t,s) .
+  red istep1(i,j) .
+close

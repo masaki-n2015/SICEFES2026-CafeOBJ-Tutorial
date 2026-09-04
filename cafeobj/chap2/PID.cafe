@@ -1,0 +1,4 @@
+mod* PID {
+  [ Pid ]
+  op _=_ : Pid Pid -> Bool {comm}
+}

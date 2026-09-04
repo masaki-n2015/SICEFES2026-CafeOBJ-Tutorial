@@ -1,0 +1,33 @@
+in LOC.cafe
+in PSET.cafe
+
+mod* ABCt {
+  pr(LOC + PSET + RAT)
+  *[Sys]*
+  op init : -> Sys
+  bop loc : Sys Pid -> Loc
+  bop now : Sys -> Rat
+  bops ab bc : Sys Pid -> Sys
+  ops c-ab c-bc : Sys Pid -> Bool
+  bop tick : Rat Sys -> Sys
+  op c-tick : Rat Sys -> Bool
+  var S : Sys .
+  vars I J : Pid .
+  var D : Rat .
+  eq loc(init,I) = a .
+  eq now(init) = 0 .
+  eq c-ab(S,I) = (loc(S,I) = a) .
+  ceq ab(S,I) = S if not c-ab(S,I) .
+  ceq loc(ab(S,I),J) =
+    (if I = J then b else loc(S,J) fi) if c-ab(S,I) .
+  eq now(ab(S,I)) = now(S) .
+  eq c-bc(S,I) = (loc(S,I) = b) .
+  ceq bc(S,I) = S if not c-bc(S,I) .
+  ceq loc(bc(S,I),J) =
+    (if I = J then c else loc(S,J) fi) if c-bc(S,I) .
+  eq now(bc(S,I)) = now(S) .
+  eq c-tick(D,S) = (0 <= D) .
+  ceq tick(D,S) = S if not c-tick(D,S) .
+  ceq loc(tick(D,S),J) = loc(S,J) if c-tick(D,S) .
+  ceq now(tick(D,S)) = now(S) + D if c-tick(D,S) .
+}

@@ -1,0 +1,32 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / test.cafe
+-- Executable examples for the autonomous-vehicle specification.
+
+in main.cafe
+
+open MAINSYSTEM .
+  op p1 : -> Pid .
+  ops s1 s2 s3 s4 : -> Sys .
+  eq s1 = enter(p1,init) .
+  eq s2 = tick(1,s1) .
+  eq s3 = b(p1,s2) .
+  eq s4 = tick(1,s3) .
+
+  red now(init) .
+  red ps(init) .
+  red loc(p1,init) .
+  red x(p1,init) .
+  red v(p1,init) .
+  red c-enter(p1,init) .
+  red ps(s1) .
+  red loc(p1,s1) .
+  red c-tick(1,s1) .
+  red now(s2) .
+  red x(p1,s2) .
+  red v(p1,s2) .
+  red loc(p1,s3) .
+  red c-tick(1,s3) .
+  red now(s4) .
+  red x(p1,s4) .
+  red v(p1,s4) .
+close

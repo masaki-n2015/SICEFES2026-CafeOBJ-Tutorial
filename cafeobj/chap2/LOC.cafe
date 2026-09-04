@@ -1,0 +1,10 @@
+mod! LOC {
+  [ Loc ]
+  ops a b c : -> Loc
+  op _=_ : Loc Loc -> Bool {comm}
+  var L : Loc
+  eq (L = L) = true .
+  eq (a = b) = false .
+  eq (a = c) = false .
+  eq (b = c) = false .
+}

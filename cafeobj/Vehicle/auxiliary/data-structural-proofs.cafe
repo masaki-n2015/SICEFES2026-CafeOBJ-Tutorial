@@ -1,0 +1,103 @@
+-- SICE FES 2026 Tutorial
+-- Vehicle / auxiliary/data-structural-proofs.cafe
+-- Executable structural Proof Scores for the data consequences used by the
+
+in ../main.cafe
+
+mod VEHICLE-DATA-STRUCTURAL-PROPS {
+  pr(MAINSYSTEM)
+  op tick-member : Pid PSet Rat Sys -> Bool
+  op sub-members : Pid Pid PSet PSet -> Bool
+  vars P Q : Pid
+  vars PS QS : PSet
+  var T : Rat
+  var S : Sys
+  eq tick-member(P,PS,T,S) =
+    ((c-tick(PS,T,S) and (P in PS)) implies c-tick(P,T,S)) .
+  eq sub-members(P,Q,PS,QS) =
+    ((P Q PS sub QS) implies ((P in QS) and (Q in QS))) .
+}
+
+--> tick-member / nil
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  op p : -> Pid . op t : -> Rat . op s0 : -> Sys .
+  red tick-member(p,nil,t,s0) .
+close
+
+--> tick-member / singleton, p = r
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p r : -> Pid . op t : -> Rat . op s0 : -> Sys .
+  eq p = r .
+  red tick-member(p,r,t,s0) .
+close
+
+--> tick-member / singleton, p != r
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p r : -> Pid . op t : -> Rat . op s0 : -> Sys .
+  eq (p = r) = false .
+  red tick-member(p,r,t,s0) .
+close
+
+--> tick-member / constructor, p is supplied by the head pair
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p r q : -> Pid . ops rs whole : -> PSet .
+  op t : -> Rat . op s0 : -> Sys .
+  eq (whole = r q rs) = true .
+  eq c-tick(whole,t,s0) = true .
+  eq (p in whole) = true .
+  -- Definition consequence of c-tick(r q rs) and the p = r branch.
+  eq c-tick(p,t,s0) = true .
+  red tick-member(p,whole,t,s0) .
+close
+
+--> tick-member / constructor, p is in the tail; use IH
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p r q : -> Pid . ops rs whole tail : -> PSet .
+  op t : -> Rat . op s0 : -> Sys .
+  eq (whole = r q rs) = true . eq (tail = q rs) = true .
+  eq c-tick(whole,t,s0) = true . eq (p in whole) = true .
+  -- Exact recursive-definition consequences.
+  eq c-tick(tail,t,s0) = true . eq (p in tail) = true .
+  red tick-member(p,tail,t,s0) implies tick-member(p,whole,t,s0) .
+close
+
+--> tick-member / constructor, p is not a member
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  op p : -> Pid . op whole : -> PSet . op t : -> Rat . op s0 : -> Sys .
+  eq (p in whole) = false .
+  red tick-member(p,whole,t,s0) .
+close
+
+--> sub-members / nil target
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p q : -> Pid . op rs : -> PSet .
+  red sub-members(p,q,rs,nil) .
+close
+
+--> sub-members / singleton target: a two-element pattern cannot match
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p q r : -> Pid . op rs : -> PSet .
+  eq ((p q rs) = r) = false .
+  red sub-members(p,q,rs,r) .
+close
+
+--> sub-members / constructor, pattern matches the whole sequence
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p q : -> Pid . ops rs whole : -> PSet .
+  eq whole = p q rs .
+  red sub-members(p,q,rs,whole) .
+close
+
+--> sub-members / constructor, pattern occurs in the tail; use IH
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p q r : -> Pid . ops rs tail : -> PSet .
+  eq ((p q rs) = r tail) = false .
+  red sub-members(p,q,rs,tail) implies sub-members(p,q,rs,r tail) .
+close
+
+--> sub-members / constructor, pattern is absent
+open VEHICLE-DATA-STRUCTURAL-PROPS .
+  ops p q : -> Pid . ops rs whole : -> PSet .
+  eq ((p q rs) sub whole) = false .
+  red sub-members(p,q,rs,whole) .
+close

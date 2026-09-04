@@ -1,0 +1,59 @@
+-- SICE FES 2026 Tutorial
+-- ABCf / main.cafe
+-- Complete specification and verification-property definitions for the ABCf example.
+
+mod! LOC {
+  [ Loc ]
+  ops a b c : -> Loc
+  op _=_ : Loc Loc -> Bool {comm}
+  var L : Loc
+  eq (L = L) = true .
+  eq (a = b) = false .
+  eq (a = c) = false .
+  eq (b = c) = false .
+}
+
+mod* PID {
+  [ Pid ]
+  op _=_ : Pid Pid -> Bool {comm}
+}
+
+mod* ABCf {
+  pr(LOC + PID)
+  *[Sys]*
+  op init : -> Sys
+  bop loc : Sys Pid -> Loc
+  bop flag : Sys -> Bool
+  bops ab bc : Sys Pid -> Sys
+  ops c-ab c-bc : Sys Pid -> Bool
+  var S : Sys .
+  vars I J : Pid .
+  eq loc(init,I) = a .
+  eq flag(init) = false .
+  eq c-ab(S,I) = (loc(S,I) = a) and not flag(S) .
+  ceq ab(S,I) = S if not c-ab(S,I) .
+  ceq loc(ab(S,I),J) =
+    (if I = J then b else loc(S,J) fi) if c-ab(S,I) .
+  ceq flag(ab(S,I)) = true if c-ab(S,I) .
+  eq c-bc(S,I) = (loc(S,I) = b) .
+  ceq bc(S,I) = S if not c-bc(S,I) .
+  ceq loc(bc(S,I),J) =
+    (if I = J then c else loc(S,J) fi) if c-bc(S,I) .
+  ceq flag(bc(S,I)) = false if c-bc(S,I) .
+}
+
+mod* INV {
+  pr(ABCf)
+  op inv1 : Sys Pid Pid -> Bool .
+  op inv2 : Sys Pid -> Bool .
+  var S : Sys .
+  vars I J : Pid .
+  eq inv1(S,I,J) =
+    ((loc(S,I) = b and loc(S,J) = b) implies (I = J)) .
+  eq inv2(S,I) = ((loc(S,I) = b) implies flag(S)) .
+  op istep1 : Pid Pid -> Bool .
+  op istep2 : Pid -> Bool .
+  ops s s' : -> Sys .
+  eq istep1(I,J) = (inv1(s,I,J) implies inv1(s',I,J)) .
+  eq istep2(I) = (inv2(s,I) implies inv2(s',I)) .
+}

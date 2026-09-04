@@ -1,0 +1,13 @@
+in ABCf.cafe
+
+open ABCf .
+  ops p1 p2 : -> Pid .
+  ops s1 s2 s3 s4 : -> Sys .
+  eq (p1 = p2) = false .
+  eq s1 = ab(init,p1) .
+  eq s2 = ab(s1,p2) .
+  eq s3 = bc(s2,p1) .
+  eq s4 = ab(s3,p2) .
+  red loc(s2,p2) . -- a
+  red loc(s4,p2) . -- b
+close

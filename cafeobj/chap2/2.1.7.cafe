@@ -1,0 +1,6 @@
+in LOC.cafe
+
+open LOC .
+  red b = b .
+  red c = a .
+close
