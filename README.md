@@ -31,9 +31,28 @@ See `cafeobj/README.txt` for execution instructions.
 
 ## Requirements
 
-CafeOBJ is required to execute the examples.
+CafeOBJ is required only if you want to execute the examples locally.
+Installing CafeOBJ is not required to follow the tutorial, but running the
+examples on your own computer can make the tutorial more interactive.
 
 The distributed files were validated with CafeOBJ 1.6.2 (PigNose0.99).
+
+Download and installation instructions are available from the official CafeOBJ site:
+
+https://cafeobj.org/download/
+
+For macOS, we recommend the official SBCL binary package from the CafeOBJ site.
+As of September 2026, we have observed that the current Homebrew package may fail
+to load the standard prelude on macOS, so `brew install cafeobj` is not
+recommended for this tutorial.
+
+After installation, start CafeOBJ and confirm that the startup message includes:
+
+```text
+-- CafeOBJ system Version 1.6.2(PigNose0.99) --
+...
+prelude file: std.bin
+```
 
 ## Tutorial
 
