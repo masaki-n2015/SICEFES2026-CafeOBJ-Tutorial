@@ -15,7 +15,7 @@ https://jxiv.jst.go.jp/index.php/jxiv/preprint/view/3874/
 
 The tutorial slides are available in:
 
-[slides/sicefes_hots_beamer_presentation.pdf](slides/sicefes_hots_beamer_presentation.pdf)
+[slides/SICEFES2026_Real-Time_OTS-CafeOBJ_Tutorial_Slides.pdf](slides/SICEFES2026_Real-Time_OTS-CafeOBJ_Tutorial_Slides.pdf)
 
 ## CafeOBJ files
 
