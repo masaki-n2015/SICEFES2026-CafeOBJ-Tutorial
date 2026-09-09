@@ -1,6 +1,6 @@
-# SICE FES 2026 Tutorial
+# [SICE FES 2026](https://sicefes26.sice.jp/) Tutorial
 
-Specification and Verification of Real-Time Systems Using the OTS/CafeOBJ Method: A Tutorial
+[Specification and Verification of Real-Time Systems Using the OTS/CafeOBJ Method: A Tutorial](https://sicefes26.sice.jp/tutorials/)
 
 Masaki Nakamura
 Toyama Prefectural University
@@ -62,6 +62,6 @@ prelude file: std.bin
 
 ## Tutorial
 
-SICE FES 2026
+[SICE FES 2026](https://sicefes26.sice.jp/)
 
-"Specification and Verification of Real-Time Systems Using the OTS/CafeOBJ Method: A Tutorial"
+["Specification and Verification of Real-Time Systems Using the OTS/CafeOBJ Method: A Tutorial"](https://sicefes26.sice.jp/tutorials/)
